@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charlene’s LTO English Reviewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .option {
+      display: block;
+      background: #3498db;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .option:hover {
+      background: #2980b9;
+    }
+    .option.correct {
+      background: #2ecc71 !important;
+    }
+    .option.wrong {
+      background: #e74c3c !important;
+    }
+    .next-btn, .restart-btn {
+      background: #2d3436;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .next-btn:hover, .restart-btn:hover {
+      background: #636e72;
+    }
+    .score-section {
+      text-align: center;
+      color: #2d3436;
+    }
+    .label {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Charlene’s LTO English Reviewer</h1>
+    <div id="quiz-content">
+      <p class="question" id="question"></p>
+      <div id="options"></div>
+      <button id="next-btn" class="next-btn" style="display:none;">Next</button>
+    </div>
+    <div id="result" class="score-section" style="display:none;">
+      <h2>Your Score: <span id="score"></span></h2>
+      <p id="message"></p>
+      <button id="restart-btn" class="restart-btn">Retake Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const questionBank = [
+      {//1
+        question: "At a roundabout, who has the right of way?",
+        options: ["Vehicles inside the roundabout", "Vehicles approaching the roundabout", "Vehicles facing a green light"],
+        answer: "Vehicles inside the roundabout"
+      },
+      {//2
+        question: "Is it correct that you may apply for a Student-Driver’s Permit even if you have tuberculosis or a sexually transmitted disease?",
+        options: ["Yes", "NO", "YES, but it must be clearly stated on the Student Permit"],
+        answer: "Yes"
+      },
+      {//3
+        question: "When being followed by an ambulance with flashing lights, you should:",
+        options: ["Brake suddenly and stop immediately", "Maintain your speed", "Move aside and let it pass"],
+        answer: "Move aside and let it pass"
+      },
+      {//4
+        question: "At an intersection with no traffic signs, two vehicles arrive at the same time. Which driver should yield?",
+        options: ["The driver on the right", "The driver on the left", "Either one has the right of way"],
+        answer: "The driver on the left"
+      },
+      {//5
+        question: "When parking downhill with a curb, turn your wheels:",
+        options: ["Toward the curb or edge of the road", "Away from the curb", "In any direction"],
+        answer: "Toward the curb or edge of the road"
+      },
+      {//6
+        question: "When driving on an expressway, you may stop only:",
+        options: ["When picking up or dropping off passengers or cargo", "At a lay-by to make or answer an emergency call", "To ask for directions"],
+        answer: "At a lay-by to make or answer an emergency call"
+      },
+      {//7
+        question: "Can you turn right when the traffic light is red?",
+        options: ["Yes, it’s a protected turn, so you have the right of way", "Yes, but only after stopping and giving way to other vehicles", "Yes, if there’s a sign that says “Turn Right With Care on Red Signal after a Full Stop”"],
+        answer: "Yes, if there’s a sign that says “Turn Right With Care on Red Signal after a Full Stop”"
+      },
+      {//8
+        question: "Traffic signs, signals, warnings, and pavement markings are for:",
+        options: ["Motorists only", "Pedestrians only", "All road users"],
+        answer: "All road users"
+      },
+      {//9
+        question: "What should you do if you're being pressured by drivers behind you to go faster?",
+        options: ["Use the directional signal, gradually move into the slower lane, and let faster vehicles pass on your left", "Tap your brakes once or twice and leave the road", "Turn on hazard lights while speeding"],
+        answer: "Use the directional signal, gradually move into the slower lane, and let faster vehicles pass on your left"
+      },
+      {//10
+        question: "What should you do if vehicles are overtaking to your left?",
+        options: ["Stop and let them pass", "Maintain or reduce speed and stay to the right", "Slow down and switch lanes"],
+        answer: "Maintain or reduce speed and stay to the right"
+      },
+      {//11
+        question: "What does a flashing red traffic light mean?",
+        options: ["Stop at the stop line and wait for a traffic enforcer", "Speed up to beat the red light", "Stop at the stop line and proceed if there is no danger"],
+        answer: "Stop at the stop line and proceed if there is no danger"
+      },
+      {//12
+        question: "What happens if you leave sufficient space between your vehicle and the one ahead?",
+        options: ["Another driver may cut in", "You can maneuver or reverse more easily", "Another driver may honk and overtake you"],
+        answer: "You can maneuver or reverse more easily"
+      },
+      {//13
+        question: "Drivers who are slower than others should stay in:",
+        options: ["The outer lane", "The middle lane", "The inner lane"],
+        answer: "The outer lane"
+      },
+      {//14
+        question: "When parking uphill near a curb, you should turn your wheels:",
+        options: ["Straight ahead or parallel to the road", "Away from the curb", "Toward the curb"],
+        answer: "Away from the curb"
+      },
+      {//15
+        question: "When driving in a lane that’s about to end, what should you first do to merge without disrupting traffic? (Rule of continuity line)",
+        options: ["Suddenly move to the left lane", "Adjust your driving speed to traffic flow", "Choose a suitable gap in the left lane"],
+        answer: "Adjust your driving speed to traffic flow"
+      },
+      {//16
+        question: "Which of the following will improve fuel consumption?",
+        options: ["Short trips with a cold engine at night", "Reducing speed, braking properly, and planning trips", "Driving in low gear with air-conditioning on"],
+        answer: "Reducing speed, braking properly, and planning trips"
+      },
+      {//17
+        question: "Which of the following accessories must be maintained in good condition?",
+        options: ["Seatbelt", "Headlights", "All of the above"],
+        answer: "All of the above"
+      },
+      {//18
+        question: "When parking uphill without a curb, you should turn your wheels:",
+        options: ["Toward the side of the road", "Away from the side of the road", "Parallel to the road"],
+        answer: "Away from the side of the road"
+      },
+      {//19
+        question: "What type of insurance is required for vehicles?",
+        options: ["Comprehensive", "Third party", "All of the above"],
+        answer: "Third party"
+      },
+      {//20
+        question: "When driving a vehicle with ABS at high speed and you need to stop suddenly, you should:",
+        options: ["Press the brake pedal firmly and steadily", "Brake lightly", "Pump the brakes"],
+        answer: "Press the brake pedal firmly and steadily"
+      },
+      {//21
+        question: "While driving, you should glance at your side and rear-view mirrors:",
+        options: ["Quickly/briefly", "For as long as you like", "Not less than one minute"],
+        answer: "Quickly/briefly"
+      },
+      {//22
+        question: "You may overtake on the right side if:",
+        options: ["The highway has two or more lanes going in one direction", "The road is two-way", "The sidewalk is wide"],
+        answer: "The highway has two or more lanes going in one direction"
+      },
+      {//23
+        question: "Drivers caught drunk or using illegal drugs are penalized with:",
+        options: ["License suspension", "Fine and imprisonment", "All of the above"],
+        answer: "All of the above"
+      },
+      {//24
+        question: "Before leaving a parking area, you should:",
+        options: ["Check the surroundings before driving away", "Honk your horn", "Drive off immediately"],
+        answer: "Check the surroundings before driving away"
+      },
+      {//25
+        question: "The correct age to apply for a Non-Professional Driver’s License is:",
+        options: ["18 years old", "16 years old", "17 years old"],
+        answer: "17 years old"
+      },
+      {//26
+        question: "After overtaking and you want to return to your original lane safely, you must:",
+        options: ["Check the rear-view mirror for the vehicle you passed", "Turn your head to look at the overtaken vehicle", "Stop"],
+        answer: "Check the rear-view mirror for the vehicle you passed"
+      },
+      {//27
+        question: "At an intersection with a STOP sign, you must:",
+        options: ["Slow down and continue if no danger", "Stop and proceed if safe", "Yield to vehicles from right or left and continue if safe"],
+        answer: "Stop and proceed if safe"
+      },
+      {//28
+        question: "A license is a:",
+        options: ["Honor", "Privilege", "Right"],
+        answer: "Privilege"
+      },
+      {//29
+        question: "A Non-Professional Driver’s License is only for:",
+        options: ["Private vehicles", "Passenger vehicles", "Any type of vehicle"],
+        answer: "Private vehicles"
+      },
+      {//30
+        question: "What should you prepare if you are going on a long journey?",
+        options: ["Prepare repair tools for your vehicle in case of breakdown", "Plan the route and condition the vehicle first", "All of the above"],
+        answer: "All of the above"
+      },
+      {//31
+        question: "A vehicle is parked if it:",
+        options: ["Stops for a long time and is loading passengers", "Stops for a long time and is unloading passengers", "Stops for a long time and the engine is off"],
+        answer: "Stops for a long time and the engine is off"
+      },
+      {//32
+        question: "What does a non-lit red traffic light mean?",
+        options: ["Wait for the green light", "Slow down and proceed carefully", "Stop and proceed if safe"],
+        answer: "Stop and proceed if safe"
+      },
+      {//33
+        question: "What must you do before making a right or left turn?",
+        options: ["Turn suddenly and honk", "Give a signal or indicator at least 30 meters ahead", "Ignore the signal"],
+        answer: "Give a signal or indicator at least 30 meters ahead"
+      },
+      {//34
+       question: "When changing lanes, you must signal, check the rear-view mirror and:",
+        options: ["Check if there is an approaching vehicle", "Honk", "Turn on the headlight"],
+        answer: "Check if there is an approaching vehicle"
+      },
+      {//35
+       question: "On a highway with two lanes, you may overtake if on your side there is:",
+        options: ["A continuous white line", "A broken yellow line", "A continuous yellow line"],
+        answer: "A broken yellow line"
+      },
+      {//36
+       question: "Ignoring the traffic light means:",
+        options: ["It proves you are a good driver", "You may be involved in an accident", "You save on fuel"],
+        answer: "You may be involved in an accident"
+      },
+      {//37
+       question: "Left-hand turns are more dangerous than right-hand turns because:",
+        options: ["Vehicles coming from the left are fast", "You must be alert to vehicles coming from left or right", "The road has many lanes"],
+        answer: "You must be alert to vehicles coming from left or right"
+      },
+      {//38
+       question: "The safest thing even when you have the right of way is to:",
+        options: ["Not insist on your right", "Honk", "Always insist on your right"],
+        answer: "Not insist on your right"
+      },
+      {//39
+       question: "You should not overtake at the foot of a bridge because:",
+        options: ["Pedestrians cross", "Oncoming vehicles cannot be seen", "The road is narrow"],
+        answer: "Oncoming vehicles cannot be seen"
+      },
+      {//40
+       question: "What does a non-lit yellow traffic light mean?",
+        options: ["Slow down and proceed if no danger", "Stop and wait for the light to change", "Wait for the green light"],
+        answer: "Slow down and proceed if no danger"
+      },
+      {//41
+       question: "What does a continuous yellow line mean?",
+        options: ["You may overtake", "Overtaking is prohibited", "All of the above"],
+        answer: "Overtaking is prohibited"
+      },
+      {//42
+       question: "According to law, you may not drive at high speed, unless:",
+        options: ["There is no danger", "Operation is consistent with permitted speed", "All of the above"],
+        answer: "All of the above"
+      },
+      {//43
+       question: "A licensed driver may drive:",
+        options: ["Any type of vehicle", "The vehicle stated in the license", "Only passenger vehicles"],
+        answer: "The vehicle stated in the license"
+      },
+      {//44
+       question: "If the oncoming vehicle has dazzling lights, what should you do?",
+        options: ["Dazzle them back to lower their lights", "Glance to the right side of the road", "Stare at the dazzling lights"],
+        answer: "Glance to the right side of the road"
+      },
+      {//45
+       question: "When approaching a curve, what should you do?",
+        options: ["Slow down before you reach the curve", "Speed up while approaching the curve", "Brake hard while in the curve"],
+        answer: "Slow down before you reach the curve"
+      },
+      {//46
+       question: "What does a red triangular traffic sign mean?",
+        options: ["It directs", "It warns", "It gives information"],
+        answer: "It warns"
+      },
+      {//47
+       question: "What does a blue-and-white rectangular or square traffic sign mean?",
+        options: ["It directs a route", "It warns", "It provides information/knowledge"],
+        answer: "It provides information/knowledge"
+      },
+      {//48
+       question: "What does a red circular, octagonal or upside-down triangular traffic sign mean?",
+        options: ["It prescribes or forbids", "It warns", "It directs"],
+        answer: "It prescribes or forbids"
+      },
+      {//49
+       question: "What does a green traffic light mean?",
+        options: ["It signals the vehicle to go", "Stop at the designated line", "You may proceed, just slow down"],
+        answer: "It signals the vehicle to go"
+      },
+      {//50
+       question: "What does a non-lit red traffic light mean?",
+        options: ["Stop at the designated line", "Stop briefly and proceed if no danger", "Speed up"],
+        answer: "Stop briefly and proceed if no danger"
+      },
+      {//51
+       question: "What does a yellow traffic signal mean?",
+        options: ["Stop", "Prepare to stop — the red light is about to appear", "You may proceed, just slow down"],
+        answer: "Prepare to stop — the red light is about to appear"
+      },
+      {//52
+       question: "What does a green traffic signal mean?",
+        options: ["Proceed continuously", "Stop", "Slow down"],
+        answer: "Proceed continuously"
+      },
+      {//53
+       question: "What does a green arrow traffic signal mean?",
+        options: ["Entry into the intersection is not permitted", "It allows vehicles to turn left or right", "It allows pedestrians to cross"],
+        answer: "It allows vehicles to turn left or right"
+      },
+      {//54
+       question: "What does a yellow arrow traffic signal mean?",
+        options: ["It signals a right or left turn", "It means the red arrow signal is about to appear", "It allows vehicles to turn right, left or go straight"],
+        answer: "It means the red arrow signal is about to appear"
+      },
+      {//55
+       question: "What is the meaning of a white line on the road?",
+        options: ["It divides lanes moving in the same direction", "It separates traffic moving in one direction", "It indicates you may overtake right or left"],
+        answer: "It separates traffic moving in one direction"
+      },
+      {//56
+       question: "A broken yellow line is a sign that:",
+        options: ["You may overtake on the right", "Overtaking on the right or left is prohibited", "You may overtake on the left"],
+        answer: "You may overtake on the left"
+      },
+      {//57
+       question: "A broken white line is a sign that:",
+        options: ["You may overtake right or left if no danger", "Overtaking to the left is prohibited", "Overtaking to the right is prohibited"],
+        answer: "You may overtake right or left if no danger"
+      },
+      {//58
+       question: "When should a driver decide?",
+        options: ["When traffic is jammed", "When he is a good driver", "While he is driving"],
+        answer: "While he is driving"
+      },
+      {//59
+       question: "If the driver ahead of you extends his left arm upward, you can be sure he is:",
+        options: ["Turning left", "Stopping", "Turning right"],
+        answer: "Turning right"
+      },
+      {//60
+       question: "A signal must be given when turning right or left at an upcoming intersection at a distance of:",
+        options: ["15 meters", "60 meters", "30 meters"],
+        answer: "30 meters"
+      },
+      {//61
+       question: "If you intend to change lanes on a highway, you must signal:",
+        options: ["10 seconds before the move", "5 minutes before the move", "1 minute before the move"],
+        answer: "10 seconds before the move"
+      },
+      {//62
+       question: "When riding a motorcycle intending to turn right, the signal to use is:",
+        options: ["Left hand raised", "Right hand pointing directly right", "Right hand raised"],
+        answer: "Left hand raised"
+      },
+      {//63
+       question: "The required distance between your vehicle and the vehicle you are following is:",
+        options: ["The length of two vehicles", "The length of one vehicle", "The length of three vehicles"],
+        answer: "The length of one vehicle"
+      },
+      {//64
+       question: "Where should you not overtake?",
+        options: ["At an intersection", "At the foot of a bridge", "All of the above"],
+        answer: "All of the above"
+      },
+      {//65
+       question: "The use of a fake driver’s license is prohibited and the penalty is:",
+        options: ["Php 1,500.00 and six months ineligibility for a license", "Imprisonment not exceeding six months", "Php 300.00"],
+        answer: "Php 1,500.00 and six months ineligibility for a license"
+      },
+      {//66
+       question: "What should you do when a police officer signals you to stop?",
+        options: ["Stop and present your license and other vehicle documents if requested", "Ignore the officer and speed off", "Stop and argue with the officer"],
+        answer: "Stop and present your license and other vehicle documents if requested"
+      },
+      {//67
+       question: "Two broken yellow lines signify that:",
+        options: ["Overtaking to the left is prohibited", "You may overtake right or left if no danger", "Overtaking to the right is prohibited"],
+        answer: "You may overtake right or left if no danger"
+      },
+      {//68
+       question: "If the driver ahead of you extends his left arm pointed to the left, he is:",
+        options: ["Turning right", "Stopping", "Turning left"],
+        answer: "Turning left"
+      },
+      {//69
+       question: "If the brake lights of the vehicle ahead of you turn on, you should:",
+        options: ["Honk", "Prepare to brake", "Turn right or left"],
+        answer: "Prepare to brake"
+      },
+      {//70
+       question: "The horn is used to:",
+        options: ["Make noise", "Show how nice your horn sounds", "Give a warning of safety or caution to avoid an accident"],
+        answer: "Give a warning of safety or caution to avoid an accident"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let shuffledQuestions = [];
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+    const quizContent = document.getElementById("quiz-content");
+    const scoreEl = document.getElementById("score");
+    const messageEl = document.getElementById("message");
+    const restartBtn = document.getElementById("restart-btn");
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      shuffledQuestions = shuffleArray(questionBank);
+      currentQuestionIndex = 0;
+      score = 0;
+      quizContent.style.display = "block";
+      resultEl.style.display = "none";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      nextBtn.style.display = "none";
+      const currentQuestion = shuffledQuestions[currentQuestionIndex];
+      questionEl.textContent = `Q${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+      optionsEl.innerHTML = "";
+      const shuffledOptions = shuffleArray(currentQuestion.options);
+
+      shuffledOptions.forEach((optionText, i) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option");
+        btn.innerHTML = `<span class="label">${String.fromCharCode(65 + i)}.</span> ${optionText}`;
+        btn.onclick = () => selectAnswer(btn, currentQuestion.answer);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selectedBtn, correctAnswer) {
+      const options = document.querySelectorAll(".option");
+      options.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent.includes(correctAnswer)) {
+          btn.classList.add("correct");
+        }
+      });
+      if (!selectedBtn.textContent.includes(correctAnswer)) {
+        selectedBtn.classList.add("wrong");
+      } else {
+        score++;
+      }
+      nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < shuffledQuestions.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    }
+
+    function showScore() {
+      quizContent.style.display = "none";
+      resultEl.style.display = "block";
+      scoreEl.textContent = `${score} / ${shuffledQuestions.length}`;
+      const percentage = (score / shuffledQuestions.length) * 70;
+      let msg = "";
+      if (percentage >= 65) msg = "Yay! Perfect for the LTO test! :D";
+      else if (percentage >= 60) msg = "Good job! You can pass! :)";
+      else if (percentage >= 56) msg = "Almost there! Review a bit more!";
+      else msg = "Retake the quiz — you got this!";
+      messageEl.textContent = msg;
+    }
+
+    nextBtn.addEventListener("click", nextQuestion);
+    restartBtn.addEventListener("click", startQuiz);
+
+    startQuiz();
+  </script>
+</body>
+</html>
