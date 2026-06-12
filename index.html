@@ -76,6 +76,41 @@
       text-align: center;
       color: #2d3436;
     }
+    .coffee-section {
+      background: #fff8e1;
+      border: 1px dashed #ffb300;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .qr-code {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: white;
+      padding: 5px;
+    }
+    .coffee-link {
+      display: inline-block;
+      background: #e67e22;
+      color: white;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .coffee-link:hover {
+      background: #d35400;
+    }
     .label {
       font-weight: bold;
       margin-right: 5px;
@@ -113,6 +148,13 @@
     <div id="result" class="score-section" style="display:none;">
       <h2>Your Score: <span id="score"></span></h2>
       <p id="message"></p>
+      
+      <div class="coffee-section">
+        <p style="margin: 0;">☕ <strong>Did I help you?</strong> Grab me some coffee!</p>
+        <img src="gotyme-qr.jpg" alt="GoTyme QR Code" class="qr-code">
+        <a href="https://m.me/im.a.aves" target="_blank" class="coffee-link">Message Me Here</a>
+      </div>
+
       <button id="restart-btn" class="restart-btn">Retake Quiz</button>
     </div>
     <div class="footer">
@@ -289,187 +331,187 @@
         answer: "Give a signal or indicator at least 30 meters ahead"
       },
       {//34
-       question: "When changing lanes, you must signal, check the rear-view mirror and:",
+        question: "When changing lanes, you must signal, check the rear-view mirror and:",
         options: ["Check if there is an approaching vehicle", "Honk", "Turn on the headlight"],
         answer: "Check if there is an approaching vehicle"
       },
       {//35
-       question: "On a highway with two lanes, you may overtake if on your side there is:",
+        question: "On a highway with two lanes, you may overtake if on your side there is:",
         options: ["A continuous white line", "A broken yellow line", "A continuous yellow line"],
         answer: "A broken yellow line"
       },
       {//36
-       question: "Ignoring the traffic light means:",
+        question: "Ignoring the traffic light means:",
         options: ["It proves you are a good driver", "You may be involved in an accident", "You save on fuel"],
         answer: "You may be involved in an accident"
       },
       {//37
-       question: "Left-hand turns are more dangerous than right-hand turns because:",
+        question: "Left-hand turns are more dangerous than right-hand turns because:",
         options: ["Vehicles coming from the left are fast", "You must be alert to vehicles coming from left or right", "The road has many lanes"],
         answer: "You must be alert to vehicles coming from left or right"
       },
       {//38
-       question: "The safest thing even when you have the right of way is to:",
+        question: "The safest thing even when you have the right of way is to:",
         options: ["Not insist on your right", "Honk", "Always insist on your right"],
         answer: "Not insist on your right"
       },
       {//39
-       question: "You should not overtake at the foot of a bridge because:",
+        question: "You should not overtake at the foot of a bridge because:",
         options: ["Pedestrians cross", "Oncoming vehicles cannot be seen", "The road is narrow"],
         answer: "Oncoming vehicles cannot be seen"
       },
       {//40
-       question: "What does a non-lit yellow traffic light mean?",
+        question: "What does a non-lit yellow traffic light mean?",
         options: ["Slow down and proceed if no danger", "Stop and wait for the light to change", "Wait for the green light"],
         answer: "Slow down and proceed if no danger"
       },
       {//41
-       question: "What does a continuous yellow line mean?",
+        question: "What does a continuous yellow line mean?",
         options: ["You may overtake", "Overtaking is prohibited", "All of the above"],
         answer: "Overtaking is prohibited"
       },
       {//42
-       question: "According to law, you may not drive at high speed, unless:",
+        question: "According to law, you may not drive at high speed, unless:",
         options: ["There is no danger", "Operation is consistent with permitted speed", "All of the above"],
         answer: "All of the above"
       },
       {//43
-       question: "A licensed driver may drive:",
+        question: "A licensed driver may drive:",
         options: ["Any type of vehicle", "The vehicle stated in the license", "Only passenger vehicles"],
         answer: "The vehicle stated in the license"
       },
       {//44
-       question: "If the oncoming vehicle has dazzling lights, what should you do?",
+        question: "If the oncoming vehicle has dazzling lights, what should you do?",
         options: ["Dazzle them back to lower their lights", "Glance to the right side of the road", "Stare at the dazzling lights"],
         answer: "Glance to the right side of the road"
       },
       {//45
-       question: "When approaching a curve, what should you do?",
+        question: "When approaching a curve, what should you do?",
         options: ["Slow down before you reach the curve", "Speed up while approaching the curve", "Brake hard while in the curve"],
         answer: "Slow down before you reach the curve"
       },
       {//46
-       question: "What does a red triangular traffic sign mean?",
+        question: "What does a red triangular traffic sign mean?",
         options: ["It directs", "It warns", "It gives information"],
         answer: "It warns"
       },
       {//47
-       question: "What does a blue-and-white rectangular or square traffic sign mean?",
+        question: "What does a blue-and-white rectangular or square traffic sign mean?",
         options: ["It directs a route", "It warns", "It provides information/knowledge"],
         answer: "It provides information/knowledge"
       },
       {//48
-       question: "What does a red circular, octagonal or upside-down triangular traffic sign mean?",
+        question: "What does a red circular, octagonal or upside-down triangular traffic sign mean?",
         options: ["It prescribes or forbids", "It warns", "It directs"],
         answer: "It prescribes or forbids"
       },
       {//49
-       question: "What does a green traffic light mean?",
+        question: "What does a green traffic light mean?",
         options: ["It signals the vehicle to go", "Stop at the designated line", "You may proceed, just slow down"],
         answer: "It signals the vehicle to go"
       },
       {//50
-       question: "What does a non-lit red traffic light mean?",
+        question: "What does a non-lit red traffic light mean?",
         options: ["Stop at the designated line", "Stop briefly and proceed if no danger", "Speed up"],
         answer: "Stop briefly and proceed if no danger"
       },
       {//51
-       question: "What does a yellow traffic signal mean?",
+        question: "What does a yellow traffic signal mean?",
         options: ["Stop", "Prepare to stop — the red light is about to appear", "You may proceed, just slow down"],
         answer: "Prepare to stop — the red light is about to appear"
       },
       {//52
-       question: "What does a green traffic signal mean?",
+        question: "What does a green traffic signal mean?",
         options: ["Proceed continuously", "Stop", "Slow down"],
         answer: "Proceed continuously"
       },
       {//53
-       question: "What does a green arrow traffic signal mean?",
+        question: "What does a green arrow traffic signal mean?",
         options: ["Entry into the intersection is not permitted", "It allows vehicles to turn left or right", "It allows pedestrians to cross"],
         answer: "It allows vehicles to turn left or right"
       },
       {//54
-       question: "What does a yellow arrow traffic signal mean?",
+        question: "What does a yellow arrow traffic signal mean?",
         options: ["It signals a right or left turn", "It means the red arrow signal is about to appear", "It allows vehicles to turn right, left or go straight"],
         answer: "It means the red arrow signal is about to appear"
       },
       {//55
-       question: "What is the meaning of a white line on the road?",
+        question: "What is the meaning of a white line on the road?",
         options: ["It divides lanes moving in the same direction", "It separates traffic moving in one direction", "It indicates you may overtake right or left"],
         answer: "It separates traffic moving in one direction"
       },
       {//56
-       question: "A broken yellow line is a sign that:",
+        question: "A broken yellow line is a sign that:",
         options: ["You may overtake on the right", "Overtaking on the right or left is prohibited", "You may overtake on the left"],
         answer: "You may overtake on the left"
       },
       {//57
-       question: "A broken white line is a sign that:",
+        question: "A broken white line is a sign that:",
         options: ["You may overtake right or left if no danger", "Overtaking to the left is prohibited", "Overtaking to the right is prohibited"],
         answer: "You may overtake right or left if no danger"
       },
       {//58
-       question: "When should a driver decide?",
+        question: "When should a driver decide?",
         options: ["When traffic is jammed", "When he is a good driver", "While he is driving"],
         answer: "While he is driving"
       },
       {//59
-       question: "If the driver ahead of you extends his left arm upward, you can be sure he is:",
+        question: "If the driver ahead of you extends his left arm upward, you can be sure he is:",
         options: ["Turning left", "Stopping", "Turning right"],
         answer: "Turning right"
       },
       {//60
-       question: "A signal must be given when turning right or left at an upcoming intersection at a distance of:",
+        question: "A signal must be given when turning right or left at an upcoming intersection at a distance of:",
         options: ["15 meters", "60 meters", "30 meters"],
         answer: "30 meters"
       },
       {//61
-       question: "If you intend to change lanes on a highway, you must signal:",
+        question: "If you intend to change lanes on a highway, you must signal:",
         options: ["10 seconds before the move", "5 minutes before the move", "1 minute before the move"],
         answer: "10 seconds before the move"
       },
       {//62
-       question: "When riding a motorcycle intending to turn right, the signal to use is:",
+        question: "When riding a motorcycle intending to turn right, the signal to use is:",
         options: ["Left hand raised", "Right hand pointing directly right", "Right hand raised"],
         answer: "Left hand raised"
       },
       {//63
-       question: "The required distance between your vehicle and the vehicle you are following is:",
+        question: "The required distance between your vehicle and the vehicle you are following is:",
         options: ["The length of two vehicles", "The length of one vehicle", "The length of three vehicles"],
         answer: "The length of one vehicle"
       },
       {//64
-       question: "Where should you not overtake?",
+        question: "Where should you not overtake?",
         options: ["At an intersection", "At the foot of a bridge", "All of the above"],
         answer: "All of the above"
       },
       {//65
-       question: "The use of a fake driver’s license is prohibited and the penalty is:",
+        question: "The use of a fake driver’s license is prohibited and the penalty is:",
         options: ["Php 1,500.00 and six months ineligibility for a license", "Imprisonment not exceeding six months", "Php 300.00"],
         answer: "Php 1,500.00 and six months ineligibility for a license"
       },
       {//66
-       question: "What should you do when a police officer signals you to stop?",
+        question: "What should you do when a police officer signals you to stop?",
         options: ["Stop and present your license and other vehicle documents if requested", "Ignore the officer and speed off", "Stop and argue with the officer"],
         answer: "Stop and present your license and other vehicle documents if requested"
       },
       {//67
-       question: "Two broken yellow lines signify that:",
+        question: "Two broken yellow lines signify that:",
         options: ["Overtaking to the left is prohibited", "You may overtake right or left if no danger", "Overtaking to the right is prohibited"],
         answer: "You may overtake right or left if no danger"
       },
       {//68
-       question: "If the driver ahead of you extends his left arm pointed to the left, he is:",
+        question: "If the driver ahead of you extends his left arm pointed to the left, he is:",
         options: ["Turning right", "Stopping", "Turning left"],
         answer: "Turning left"
       },
       {//69
-       question: "If the brake lights of the vehicle ahead of you turn on, you should:",
+        question: "If the brake lights of the vehicle ahead of you turn on, you should:",
         options: ["Honk", "Prepare to brake", "Turn right or left"],
         answer: "Prepare to brake"
       },
       {//70
-       question: "The horn is used to:",
+        question: "The horn is used to:",
         options: ["Make noise", "Show how nice your horn sounds", "Give a warning of safety or caution to avoid an accident"],
         answer: "Give a warning of safety or caution to avoid an accident"
       }
